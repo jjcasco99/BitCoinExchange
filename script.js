@@ -32,7 +32,7 @@ app.post('/comprar', urlencodedParser, (req, res) => {
                     "Telefono": req.body.telefonoPersona,
                     "Email": req.body.emailPersona,
                     "DNI": req.body.dniPersona,
-                    "Contraseña": req.body.contraPerosna,
+                    "Contraseña": req.body.contraPersona,
                     "BitCoins": req.body.cantidadCompra};
         dbo.collection(clientes).insertOne(nuevoUsuario, function(err, res) {
           if (err) throw err;
