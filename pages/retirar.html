@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Transacciones</h1>
+        <form action="/transaccion" method="POST">
+          <div class="form-group">
+            <label for="dniPersona">DNI</label>
+            <input type="text" class="form-control" id="dniPersona" aria-describedby="emailHelp" placeholder="Introduca DNI" name="dniPersona">
+          </div>
+          <div class="form-group">
+            <label for="contraPersona">PIN</label>
+            <input type="password" class="form-control" id="contraPersona" aria-describedby="emailHelp" placeholder="Introduzca PIN" name="contraPersona">
+          </div>
+          <div class="form-group">
+            <label for="money">Cantidad a retirar</label>
+            <input type="number" class="form-control" id="money" aria-describedby="emailHelp" placeholder="¿Cuánto desea sacar?" name="money">
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+</body>
+</html>
