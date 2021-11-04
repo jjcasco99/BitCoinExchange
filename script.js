@@ -43,7 +43,6 @@ app.post('/comprar', urlencodedParser, (req, res) => {
     res.send(req.body);
 });
 
-<<<<<<< HEAD:script.js
 app.post('/Consulta', urlencodedParser, (req, res) => {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
@@ -64,6 +63,3 @@ app.post('/Consulta', urlencodedParser, (req, res) => {
   });
 });
 app.listen(3000);
-=======
-app.listen(3000);
->>>>>>> 281311daf9323501886238a128717f56625c95b2:scripts/script.js
