@@ -10,7 +10,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
   
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+const urlencodedParser = bodyParser.urlencoded({ extended: false })
     
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
@@ -35,3 +35,19 @@ app.post('/insertar', urlencodedParser, (req, res) => {
       });
     res.send(req.body);
 });
+
+app.post('/retirar', urlencodedParser, (req, res) => {
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db(mydb);
+    var myquery = {"dni": req.body.dniPersona, "contraseña": req.body.contraPerosna};
+    // var newvalues = { $set: {"nombre": "Pedro SL", "direccion": "C/Serrano" } };
+    dbo.collection(clientes).aggregate(myquery, {$substract:[$saldo, req.body.money],}, function(err, res) {
+    if (err) throw err;
+    console.log("Documento actualizado");
+    db.close();
+    });
+  });
+});
+
+app.listen(3000);
