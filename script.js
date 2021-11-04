@@ -35,3 +35,24 @@ app.post('/insertar', urlencodedParser, (req, res) => {
       });
     res.send(req.body);
 });
+
+app.post('/Consulta', urlencodedParser, (req, res) => {
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db(mydb);
+    let nuevaConsulta = {
+      "nombre": req.body.nombrePersona,
+      "DNI": req.body.dniPersona,
+      "Email": req.body.emailPersona,
+      "Consulta": req.body.consultaPersona
+    };  
+
+
+    dbo.collection(consultas).insertOne(nuevaConsulta, function(err, res) {
+      if (err) throw err;
+      console.log("Documento insertado");
+      db.close();
+    });
+  });
+});
+app.listen(3000);
