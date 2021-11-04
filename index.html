@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,11 +8,20 @@
     <title>Document</title>
   </head>
   <body>
+
+    <header>
+      <nav>
+        <li><a href="./pages/login.html">Inicia sesión</a></li>
+        <li><a href="./pages/compra.html">Registrar y comprar</a></li>
+      </nav>
+    </header>
+
     <div class="container">
-      <h1>consulta</h1>
+      <h1>Consulta</h1>
       <form action="/Consulta" method="POST">
         <div class="form-group">
           <label for="dbName">Nombre</label>
+<<<<<<< HEAD
           <input
             type="text" class="form-control"id="nombrePersona" aria-describedby="emailHelp" placeholder="Introduca DNI"name="nombrePersona"/><br />
         </div>
@@ -24,8 +33,19 @@
           <label for="collName">Cantidad consultada de compra</label>
           <input
             type="number"class="form-control"id="consultaPersona"aria-describedby="emailHelp"placeholder="cantidad a comprar"name="consultaPersona"/><br />
+=======
+          <input type="text" class="form-control" id="nombrePersona" aria-describedby="emailHelp" placeholder="Introduca DNI" name="nombrePersona"/><br/>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="form-group">
+          <label for="dniPersona">Dni</label>
+          <input type="text" class="form-control" id="dniPersona" aria-describedby="emailHelp" placeholder="Introduzca PIN" name="dniPersona"/><br/>
+          <label for="emailPersona">Email</label>
+          <input type="email" class="form-control" id="emailPersona" aria-describedby="emailHelp" placeholder="Introduzca nombre" name="emailPersona"/><br/>
+          <label for="consultaPersona">Cantidad consultada de compra</label>
+          <input type="number" class="form-control" id="consultaPersona" aria-describedby="emailHelp" placeholder="cantidad a comprar" name="consultaPersona"/><br/>
+>>>>>>> 029d60938ec56e0347f7eb6fd289aefe48650bee
+        </div>
+        <button type="submit" class="btn btn-primary"><a href="./pages/compra.html">Submit</a></button>
       </form>
     </div>
   </body>
