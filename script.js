@@ -9,14 +9,21 @@ const consultas = 'Consultas';
 const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
+
+// const http = require('http');
+// const fs = require('fs');
   
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
+const urlencodedParser = bodyParser.urlencoded({ extended: false })
     
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-app.post('/insertar', urlencodedParser, (req, res) => {
+app.get('/registro', (req, res) => {
+  res.sendFile(__dirname + '/compra.html');
+});
+
+app.post('/comprar', urlencodedParser, (req, res) => {
     MongoClient.connect(url+mydb, function(err, db) {
         if (err) throw err;
         var dbo = db.db(mydb);
@@ -35,3 +42,5 @@ app.post('/insertar', urlencodedParser, (req, res) => {
       });
     res.send(req.body);
 });
+
+app.listen(3000);
