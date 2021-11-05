@@ -10,6 +10,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
 
+
 // const http = require('http');
 // const fs = require('fs');
   
@@ -64,7 +65,8 @@ app.post('/inicioSesion', urlencodedParser, (req, res) => {
         if (req.body.emailPersona == result[0].Email && req.body.contraPersona == result[0].Contraseña){
           console.log("cuenta iniciada");
           res.sendFile(__dirname + '/retirar.html');
-        } else {
+        } 
+        if(req.body.emailPersona != result[0].Email || req.body.contraPersona != result[0].Contraseña){
           console.log('credenciales erroneas');
           res.sendFile(__dirname + '/login.html');
         }
@@ -94,7 +96,7 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
       .then(resultado => {
         let newValue = {$set: {"BitCoins": restante}}
         dbo.collection(clientes).updateOne(query, newValue)
-        // console.log(resultado)r4er4
+        console.log(resultado)
         return resultado
       })
       // .then(res => {
@@ -103,16 +105,17 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
         .catch(err => console.error(`No funciono: ${err}`))
       });
   });
+  
   app.post('/adquisicion', urlencodedParser, (req, res) => {
     let restante;
     MongoClient.connect(url, function(err, db) {
   
-      if (err) throw err;
-      var dbo = db.db(mydb);
-      var query = { "DNI":req.body.dniPersona, "Contraseña": req.body.contraPersona};
-      return dbo.collection(clientes).find(query)
-      .toArray()  
-      .then(result => {
+    if (err) throw err;
+    var dbo = db.db(mydb);
+    var query = { "DNI":req.body.dniPersona, "Contraseña": req.body.contraPersona};
+    return dbo.collection(clientes).find(query)
+    .toArray()  
+    .then(result => {
           console.log("avance", result)
           if (err) throw err;
           restante = result[0].BitCoins + parseInt(req.body.money)
@@ -126,7 +129,7 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
         // .then(db.close())  
         .catch(err => console.error(`No funciono: ${err}`))
       });
-    });
+});
 
 
  app.post('/Consulta', urlencodedParser, (req, res) => {
