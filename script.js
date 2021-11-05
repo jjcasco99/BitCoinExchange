@@ -31,6 +31,8 @@ app.get('/retirarBitcoin', (req, res) => {
   res.sendFile(__dirname + '/retirar.html');
 });
 
+
+
 app.post('/comprar', urlencodedParser, (req, res) => {
     MongoClient.connect(url+mydb, function(err, db) {
         if (err) throw err;
@@ -72,51 +74,6 @@ app.post('/inicioSesion', urlencodedParser, (req, res) => {
 });
 
 
-// app.post('/transaccion', urlencodedParser, (req, res) => {
-//   let restante;
-//   MongoClient.connect(url, function(err, db) {
-
-//     if (err) throw err;
-//     var dbo = db.db(mydb);
-//     var query = { "DNI":req.body.dniPersona, "Contraseña": req.body.contraPersona};
-//     dbo.collection(clientes).find(query).toArray(function(err, result) {
-//       if (err) throw err;
-//       restante = result[0].BitCoins
-//       console.log("primer restante", restante)
-//       db.close();
-//     });
-//     MongoClient.connect(url, function(err, db) {
-//       if (err) throw err;
-//       var dbo = db.db(mydb);
-//       var query = { "DNI":req.body.dniPersona, "Contraseña": req.body.contraPersona};
-//       let newValue = {$set: {"BitCoins": restante - req.body.money}};
-//       console.log("este es el nuevo", restante)
-//       dbo.collection(clientes).updateOne(query, newValue, function(err, res) {
-//       if (err) throw err;
-//       console.log("Documento actualizado");
-//       db.close();
-//       });
-//   });
-//   });
-
-// });
-// app.post('/transaccion', urlencodedParser, (req, res) => {
-//   MongoClient.connect(url, function(err, db) {
-//     if (err) throw err;
-//     var dbo = db.db(mydb);
-//     var query = { "DNI":req.body.dniPersona, "Contraseña": req.body.contraPersona};
-//     let newValue = {$set: {"BitCoins": - req.body.money}};
-//     const options = {returnNewDocument: true};
-//     return dbo.collection(clientes).findOneAndUpdate(query, newValue, options)
-//       .then(updatedDocument => {
-//         if(updatedDocument) {
-//           console.log("existe ya por favor")
-//         }
-//         return updatedDocument
-//       })
-//       .catch(err => console.error("no funciono más"))
-//   })
-// });
 
 app.post('/transaccion', urlencodedParser, (req, res) => {
   let restante;
@@ -146,7 +103,6 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
         .catch(err => console.error(`No funciono: ${err}`))
       });
   });
-
   app.post('/adquisicion', urlencodedParser, (req, res) => {
     let restante;
     MongoClient.connect(url, function(err, db) {
@@ -172,4 +128,23 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
       });
     });
 
+
+ app.post('/Consulta', urlencodedParser, (req, res) => {
+    MongoClient.connect(url+mydb, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db(mydb);
+        let nuevaConsulta = {"Nombre": req.body.nombrePersona,           
+                              "Email": req.body.emailPersona,
+                                "DNI": req.body.dniPersona,
+                           "ConsultaBitcoins": req.body.consultaPersona};
+        dbo.collection(consultas).insertOne(nuevaConsulta,function(err, res) {
+          if (err) throw err;
+          db.close();
+        });
+      });
+      res.sendFile(__dirname + '/');
+});
+
+
 app.listen(3000);
+
