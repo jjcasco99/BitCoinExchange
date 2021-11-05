@@ -10,6 +10,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const app = express();
 
+
 // const http = require('http');
 // const fs = require('fs');
   
@@ -59,13 +60,14 @@ app.post('/inicioSesion', urlencodedParser, (req, res) => {
       var query = { "Email":req.body.emailPersona, "Contraseña": req.body.contraPersona};
       dbo.collection(clientes).find(query).toArray(function(err, result) {
         if (err) throw err;
-        if (req.body.emailPersona == result[0].Email && req.body.contraPersona == result[0].Contraseña){
-          console.log("cuenta iniciada");
-          res.sendFile(__dirname + '/retirar.html');
-        } else {
+        if(req.body.emailPersona != result[0].Email || req.body.contraPersona != result[0].Contraseña){
           console.log('credenciales erroneas');
           res.sendFile(__dirname + '/login.html');
         }
+        if (req.body.emailPersona == result[0].Email && req.body.contraPersona == result[0].Contraseña){
+          console.log("cuenta iniciada");
+          res.sendFile(__dirname + '/retirar.html');
+        } 
         db.close();
       });
     });  
@@ -129,7 +131,7 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
     .then(result => {
         console.log("avance", result)
         if (err) throw err;
-        if (req.body.money < result[0].BitCoins){
+        if (req.body.money <= result[0].BitCoins){
         restante = result[0].BitCoins - req.body.money
         return result
         }
@@ -137,16 +139,11 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
       .then(resultado => {
         let newValue = {$set: {"BitCoins": restante}}
         dbo.collection(clientes).updateOne(query, newValue)
-        // console.log(resultado)r4er4
+        console.log(resultado)
         return resultado
       })
-      // .then(res => {
-      //   db.close();
-      // })  
       .catch(err => console.error(`No funciono: ${err}`))
     });
-    db.close();
-    res.sendFile(__dirname + '/retirarBitcoin');
   });
 
 app.listen(3000);
