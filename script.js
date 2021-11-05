@@ -60,20 +60,19 @@ app.post('/inicioSesion', urlencodedParser, (req, res) => {
       if (err) throw err;
       var dbo = db.db(mydb);
       var query = { "Email":req.body.emailPersona, "Contraseña": req.body.contraPersona};
-      dbo.collection(clientes).find(query).toArray(function(err, result) {
+      dbo.collection(clientes).find(query).toArray().then(result => {
         if (err) throw err;
-        if (req.body.emailPersona == result[0].Email && req.body.contraPersona == result[0].Contraseña){
-          console.log("cuenta iniciada");
+        if (result[0].Email == req.body.emailPersona && result[0].Contraseña == req.body.contraPersona){
           res.sendFile(__dirname + '/retirar.html');
-        } 
-        if(req.body.emailPersona != result[0].Email || req.body.contraPersona != result[0].Contraseña){
-          console.log('credenciales erroneas');
-          res.sendFile(__dirname + '/login.html');
         }
-        db.close();
-      });
-    });  
+      }) 
+      .catch(err => res.send(`<div>
+                                <h3>EMAIL Y/O CONTRASEÑA INCORRECTO</h3>
+                              </div>
+                              <button type="submit"><a href="/login">Volver</a></button>`));
+  });  
 });
+
 
 
 
@@ -86,25 +85,34 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
     return dbo.collection(clientes).find(query)
     .toArray()  
     .then(result => {
-        console.log("avance", result)
-        if (err) throw err;
-        if (req.body.money < result[0].BitCoins){
+      if (err) throw err;
+      if (req.body.money <= result[0].BitCoins){
         restante = result[0].BitCoins - parseInt(req.body.money)
         return result
-        }
-      })
-      .then(resultado => {
+      }
+    })
+    .then(resultado => {
+      if (restante != null){
         let newValue = {$set: {"BitCoins": restante}}
         dbo.collection(clientes).updateOne(query, newValue)
-        console.log(resultado)
         return resultado
-      })
-      // .then(res => {
-        //   db.close();
-        // })  
-        .catch(err => console.error(`No funciono: ${err}`))
-      });
+      }
+    })
+    .then(total => {
+      res.send(`<div>
+                <h3>Tu saldo actual es: ${total[0].BitCoins - parseInt(req.body.money)}</h3>
+                </div>
+                <button type="submit"><a href="/retirarBitcoin">Volver</a></button>`);
+    })  
+    .catch(err => {
+      res.send(`<div>
+                <h3>Credenciales incorrectos o saldo insuficiente</h3>
+                </div>
+                <button type="submit"><a href="/retirarBitcoin">Volver</a></button>`);
+
+    });
   });
+});
   
   app.post('/adquisicion', urlencodedParser, (req, res) => {
     let restante;
@@ -116,7 +124,6 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
     return dbo.collection(clientes).find(query)
     .toArray()  
     .then(result => {
-          console.log("avance", result)
           if (err) throw err;
           restante = result[0].BitCoins + parseInt(req.body.money)
           return result
@@ -124,10 +131,18 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
         .then(resultado => {
           let newValue = {$set: {"BitCoins": restante}}
           dbo.collection(clientes).updateOne(query, newValue)
-          // console.log(resultado)
-          return resultado})
-        // .then(db.close())  
-        .catch(err => console.error(`No funciono: ${err}`))
+          return resultado}) 
+          .then(total => {
+            res.send(`<div>
+                        <h3>Tu saldo actual es: ${total[0].BitCoins + parseInt(req.body.money)}</h3>
+                      </div>
+                      <button type="submit"><a href="/retirarBitcoin">Volver</a></button>
+            `);
+          }) 
+        .catch(err => res.send(`<div>
+                                  <h3>DNI Y/O PIN INCORRECTO</h3>
+                                </div>
+                                <button type="submit"><a href="/retirarBitcoin">Volver</a></button>`));
       });
 });
 
@@ -144,8 +159,12 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
           if (err) throw err;
           db.close();
         });
+        res.send(`<div>
+                    <h1>Hola ${nuevaConsulta.Nombre}, tu consulta ha sido recibida le atenderemos a la mayor brevedad posible!. Gracias por su paciencia.</h1>
+                  </div>
+                  <button type="submit"><a href="/">Volver</a></button>
+        `);
       });
-      res.sendFile(__dirname + '/');
 });
 
 
