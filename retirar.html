@@ -33,5 +33,23 @@
           <button type="submit" class="btn btn-primary">Retirar</button>
         </form>
       </div>
+      <div class="container">
+        <h1>Adquirir más Bitcoins</h1>
+        <form action="/adquisicion" method="POST">
+          <div class="form-group">
+            <label for="dniPersona">DNI</label>
+            <input type="text" class="form-control" id="dniPersona" aria-describedby="emailHelp" placeholder="Introduca DNI" name="dniPersona">
+          </div>
+          <div class="form-group">
+            <label for="contraPersona">PIN</label>
+            <input type="password" class="form-control" id="contraPersona" aria-describedby="emailHelp" placeholder="Introduzca PIN" name="contraPersona">
+          </div>
+          <div class="form-group">
+            <label for="money">Cantidad</label>
+            <input type="number" class="form-control" id="money" aria-describedby="emailHelp" placeholder="¿Cuánto desea comprar?" name="money">
+          </div>
+          <button type="submit" class="btn btn-primary">Comprar</button>
+        </form>
+      </div>
 </body>
 </html>
