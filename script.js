@@ -31,6 +31,8 @@ app.get('/retirarBitcoin', (req, res) => {
   res.sendFile(__dirname + '/retirar.html');
 });
 
+
+
 app.post('/comprar', urlencodedParser, (req, res) => {
     MongoClient.connect(url+mydb, function(err, db) {
         if (err) throw err;
@@ -148,5 +150,28 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
     db.close();
     res.sendFile(__dirname + '/retirarBitcoin');
   });
+
+  app.post('/Consulta', urlencodedParser, (req, res) => {
+    MongoClient.connect(url+mydb, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db(mydb);
+        let nuevaConsulta = {"Nombre": req.body.nombrePersona,           
+                              "Email": req.body.emailPersona,
+                                "DNI": req.body.dniPersona,
+                           "ConsultaBitcoins": req.body.consultaPersona};
+        dbo.collection(consultas).insertOne(nuevaConsulta,function(err, res) {
+          if (err) throw err;
+          db.close();
+        });
+      });
+      res.sendFile(__dirname + '/');
+});
+
+
+
+
+
+
+
 
 app.listen(3000);
