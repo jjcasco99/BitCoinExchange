@@ -23,6 +23,10 @@ app.get('/registro', (req, res) => {
   res.sendFile(__dirname + '/compra.html');
 });
 
+app.get('/transaccion', (req, res) => {
+  res.sendFile(__dirname + '/retirar.html');
+});
+
 
 app.post('/comprar', urlencodedParser, (req, res) => {
     MongoClient.connect(url+mydb, function(err, db) {
@@ -118,5 +122,31 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
     });
     db.close()
   });
+
+  app.post('/adquisicion', urlencodedParser, (req, res) => {
+    let restante;
+    MongoClient.connect(url, function(err, db) {
+  
+      if (err) throw err;
+      var dbo = db.db(mydb);
+      var query = { "DNI":req.body.dniPersona, "Contraseña": req.body.contraPersona};
+      return dbo.collection(clientes).find(query)
+      .toArray()  
+      .then(result => {
+          console.log("avance", result)
+          if (err) throw err;
+          restante = parseInt.result[0].BitCoins + req.body.money
+          return result
+        })
+        .then(resultado => {
+          let newValue = {$set: {"BitCoins": restante}}
+          dbo.collection(clientes).updateOne(query, newValue)
+          // console.log(resultado)
+          return resultado})
+        // .then(db.close())  
+        .catch(err => console.error(`No funciono: ${err}`))
+      });
+      db.close()
+    });
 
 app.listen(3000);
