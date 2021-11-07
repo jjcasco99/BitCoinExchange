@@ -15,6 +15,8 @@ const app = express();
 // const fs = require('fs');
   
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
+
+app.use(express.static(__dirname));
     
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
@@ -67,7 +69,7 @@ app.post('/inicioSesion', urlencodedParser, (req, res) => {
         }
       }) 
       .catch(err => res.send(`<div>
-                                <h3>EMAIL Y/O CONTRASEÑA INCORRECTO</h3>
+                                <h3 class="generado">EMAIL Y/O CONTRASEÑA INCORRECTO</h3>
                               </div>
                               <button type="submit"><a href="/login">Volver</a></button>`));
   });  
@@ -100,13 +102,13 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
     })
     .then(total => {
       res.send(`<div>
-                <h3>Tu saldo actual es: ${total[0].BitCoins - parseInt(req.body.money)}</h3>
+                <h3 class="generado">Tu saldo actual es de ${total[0].BitCoins - parseInt(req.body.money)} BitCoins</h3>
                 </div>
                 <button type="submit"><a href="/retirarBitcoin">Volver</a></button>`);
     })  
     .catch(err => {
       res.send(`<div>
-                <h3>Credenciales incorrectos o saldo insuficiente</h3>
+                <h3 class="generado">Credenciales incorrectos o saldo insuficiente</h3>
                 </div>
                 <button type="submit"><a href="/retirarBitcoin">Volver</a></button>`);
 
@@ -134,7 +136,7 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
           return resultado}) 
           .then(total => {
             res.send(`<div>
-                        <h3>Tu saldo actual es: ${total[0].BitCoins + parseInt(req.body.money)}</h3>
+                        <h3 class="generado">Tu saldo actual es de ${total[0].BitCoins + parseInt(req.body.money)} BitCoins</h3>
                       </div>
                       <button type="submit"><a href="/retirarBitcoin">Volver</a></button>
             `);
@@ -160,7 +162,7 @@ app.post('/transaccion', urlencodedParser, (req, res) => {
           db.close();
         });
         res.send(`<div>
-                    <h1>Hola ${nuevaConsulta.Nombre}, tu consulta ha sido recibida le atenderemos a la mayor brevedad posible!. Gracias por su paciencia.</h1>
+                    <h3 class="generado">Hola ${nuevaConsulta.Nombre}, tu consulta ha sido recibida, le atenderemos a la mayor brevedad posible. Gracias por su paciencia.</h3>
                   </div>
                   <button type="submit"><a href="/">Volver</a></button>
         `);
