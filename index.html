@@ -4,14 +4,18 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./styles/style.css" />
-    <title>Document</title>
+    <link rel="stylesheet" href="../styles/style.css" />
+    <link rel="shortcut icon" href="./assets/icons8-bitcoin-24.png">
+    <title>Inicio</title>
   </head>
   <body>
     <header>
       <nav>
-        <li><a href="/login">Inicia sesión</a></li>
-        <li><a href="/registro">Registrar y comprar</a></li>
+        <img src="./assets/logo.png" alt="logo" class="logo">
+        <div class="menu">
+          <li><a href="/login">Inicia sesión</a></li>
+          <li><a href="/registro">Registrar y comprar</a></li>
+        </div>
       </nav>
     </header>
 
@@ -19,18 +23,22 @@
       <h1>Consulta</h1>
       <form action="/Consulta" method="POST">
         <div class="form-group">
-          <label for="nombrePersona">Nombre</label>
+          <label for="nombrePersona">Nombre:</label>
           <input type="text" class="form-control" id="nombrePersona" aria-describedby="emailHelp" placeholder="Introduca DNI" name="nombrePersona"/><br/>
         </div>
         <div class="form-group">
-          <label for="dniPersona">Dni</label>
-          <input type="text" class="form-control" id="dniPersona" aria-describedby="emailHelp" placeholder="Introduzca PIN" name="dniPersona"/><br />
-          <label for="emailPersona">Email</label>
-          <input type="email" class="form-control" id="emailPersona" aria-describedby="emailHelp" placeholder="Introduzca nombre" name="emailPersona"/><br />
-          <label for="consultaPersona">Cantidad consultada de compra</label>
-          <input type="number"class="form-control" id="consultaPersona" aria-describedby="emailHelp" placeholder="cantidad a comprar" name="consultaPersona"/><br />
+          <label for="dniPersona">DNI:</label>
+          <input type="text" class="form-control" id="dniPersona" aria-describedby="emailHelp" placeholder="Introduzca PIN" name="dniPersona"/><br>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <div class="form-group">
+          <label for="emailPersona">Email:</label>
+          <input type="email" class="form-control" id="emailPersona" aria-describedby="emailHelp" placeholder="Introduzca nombre" name="emailPersona"/><br>
+        </div>
+        <div class="form-group">
+          <label for="consultaPersona">Cantidad:</label>
+          <input type="number"class="form-control" id="consultaPersona" aria-describedby="emailHelp" placeholder="cantidad a comprar" name="consultaPersona"/><br>
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar:</button>
       </form>
     </div>
   </body>
